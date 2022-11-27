@@ -37,7 +37,8 @@ const picturesAPIService = new PicturesAPIService;
         if((picturesAPIService.obj.page) * picturesAPIService.obj.per_page >= responceData.data.totalHits){
           handleNoMoreHits();
         }
-    });
+    })
+    .catch (handleErrorResponce)
 }
 
 function handleNoMoreHits(){
@@ -53,6 +54,7 @@ function handleLoadMoreBtn(){
           handleNoMoreHits();
         }
             return addGalleryToHTML(responceData)})
+            .catch (handleErrorResponce)
 }
 
 function createGallery(responceObj){
@@ -88,6 +90,10 @@ function addGalleryToHTML(responceData){
   let lightbox = new SimpleLightbox('.gallery .photo-card__image', {
 });
 return lightbox;
+}
+
+function handleErrorResponce(errorResponce){
+  Notify.failure(errorResponce.message);
 }
 
 function infoMessage (message){
