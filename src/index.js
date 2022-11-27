@@ -93,7 +93,7 @@ return lightbox;
 }
 
 function handleErrorResponce(errorResponce){
-  Notify.failure(errorResponce.message);
+  Notiflix.Notify.failure(errorResponce.message);
 }
 
 function infoMessage (message){

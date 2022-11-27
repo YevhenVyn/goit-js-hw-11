@@ -3,10 +3,10 @@ const KEY = '31558954-93d8154f3a56d27c67498c1c8';
 const BASE_URL = 'https://pixabay.com/api';
 
 const searchOptionsObject = {
+    key: KEY,
     image_type:'photo',
     orientation: 'horizontal',
     safesearch: true,
-    key: KEY,
     per_page: 40,
 };
 
