@@ -21,37 +21,33 @@ const picturesAPIService = new PicturesAPIService;
     event.preventDefault();
 
     galleryRef.innerHTML = '';
-    picturesAPIService.searchRequest = event.currentTarget.elements.searchQuery.value;
+     picturesAPIService.searchRequest = event.currentTarget.elements.searchQuery.value;
 
     picturesAPIService.resetPageNumber();
  
     picturesAPIService.fetchPictures().then(responceData => {
       console.log(picturesAPIService.obj)
+      
+
         if(responceData.data.total === 0) {
             return errorMessage('Sorry, there are no images matching your search query. Please try again.')
         }
         addGalleryToHTML(responceData)            
         successMessage(`Hooray! We found ${responceData.data.totalHits} images.`);
-        loadMoreBtnRef.classList.remove('is-hidden')
 
-        if((picturesAPIService.obj.page) * picturesAPIService.obj.per_page >= responceData.data.totalHits){
-          handleNoMoreHits();
-        }
+        (picturesAPIService.obj.page) * picturesAPIService.obj.per_page < responceData.data.totalHits ?
+        loadMoreBtnRef.classList.remove('is-hidden'):
+        infoMessage (`We're sorry, but you've reached the end of search results.`)
     })
     .catch (handleErrorResponce)
-}
-
-function handleNoMoreHits(){
-  loadMoreBtnRef.setAttribute('disabled', true);
-  loadMoreBtnRef.classList.add('disabled-button');
-  loadMoreBtnRef.textContent = `We're sorry, but you've reached the end of search results.`
 }
 
 function handleLoadMoreBtn(){
     picturesAPIService.increasePageNumber();
     picturesAPIService.fetchPictures().then(responceData =>{
         if((picturesAPIService.obj.page+1) * picturesAPIService.obj.per_page >= responceData.data.totalHits){
-          handleNoMoreHits();
+          loadMoreBtnRef.classList.add('is-hidden');
+          infoMessage (`We're sorry, but you've reached the end of search results.`);
         }
             return addGalleryToHTML(responceData)})
             .catch (handleErrorResponce)
@@ -108,14 +104,6 @@ function successMessage(message){
      Notiflix.Notify.success(message)
 };
 
-// function showLargePictureByClick(event) {
-//     event.preventDefault();
-//     if (!event.target.classList.contains('photo-card__image'))
-//     {return};
-//   };
-  
-  // imageRef.addEventListener('click',showLargePictureByClick);
-
 formRef.addEventListener('submit', handleSearchBtn )
 loadMoreBtnRef.addEventListener('click',handleLoadMoreBtn)
 
@@ -128,6 +116,12 @@ loadMoreBtnRef.addEventListener('click',handleLoadMoreBtn)
 // }
 
 // formRef.addEventListener('submit', checkAxios )
+
+// function handleNoMoreHits(){
+//   loadMoreBtnRef.setAttribute('disabled', true);
+//   loadMoreBtnRef.classList.add('disabled-button');
+//   loadMoreBtnRef.textContent = `We're sorry, but you've reached the end of search results.`
+// }
 
 
 
