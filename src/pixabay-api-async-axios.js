@@ -7,7 +7,7 @@ const searchOptionsObject = {
     image_type:'photo',
     orientation: 'horizontal',
     safesearch: true,
-    per_page: 20,
+    per_page: 40,
 };
 
 export default class PicturesAPIService {
